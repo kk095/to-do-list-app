@@ -231,9 +231,7 @@ button.plus:active{
 /*****************************
     EMPTY LIST DIV
 *****************************/
-.no-tasks{
-    display: none;
-}
+
 
 .emptylist{
     width: 100%;
@@ -313,34 +311,22 @@ button.plus:active{
     .tags{
         color: black;
     }
-    #select-tag{
-        background: inherit;
-        outline: none;
-        color: white;
-        border: none;
-        font-size: 1rem;
-        padding: 5px 0;
-    }
-    #select-tag option{
-        padding: 20px 5px;
-        width: 100%;
-        background: white;
-        color: black;
-    }
+    
     .dropdown option:hover{
         background: white;
         color: black;
     }
     .dropdown-clicked{
-        height:250px;
+        height:350px;
     }
     .task-list .my-info{
-        min-width: 40%;
         display: flex;
         justify-content: space-around;
         font-size: 1.2rem;
     }
-
+    .my-info .checkbox{
+        margin: 0 5px;
+    }
 
     .task-list .card{
         display: flex;
@@ -354,6 +340,9 @@ button.plus:active{
         padding: 3px 0;
         background: var(--container-highlight-color);
         color: var(--secondary-color);
+    }
+    .top-todos{
+        /* display: none; */
     }
     span.task-date{
         color: var(--primary-color);
@@ -382,22 +371,49 @@ button.plus:active{
         padding:10px 20px;
         color: var(--secondary-color);
         width: fit-content;
+        text-transform: capitalize;
     }
     .school{
         background-color: hotpink;
     }
-    .profesional{
-        background-color: rgb(38, 206, 5);
+    .professional{
+        background-color: rgb(37, 124, 19);
     }
     .home{
         background-color: rgb(129, 6, 230);
     }
+    .personal{
+        background-color: rgb(248, 35, 35);
+    }
+    .other{
+        background-color: rgb(248, 85, 35);
 
+    }
     .checkbox-checked{
         text-decoration: line-through;
         color:gray;
     }
+    .none{
+        display: none;
+    }
 
+    .delete-btn{
+        padding: 8px 15px;
+        background-color: rgba(0, 0, 0, .16);
+        font-size: 1rem;
+        margin-right: 15px;
+        font-weight: bold;
+    }
+    .delete-btn button{
+        font-size: 1rem;
+        background: none;
+    }
+    .delete-btn:hover{
+        box-shadow: 1px 1px 5px 1px grey;
+    }
+    .delete-btn button:active{
+        transform: scale(.9);
+    }
 /*---------------------------------
     TASKS LIST DIV -END
 ----------------------------------*/

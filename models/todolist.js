@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 
 const todolist =  new Schema({
-    todolist:{
-        type:'string',
-        required:true,
-    }
+    task:String,
+    date: Date,
+    tag:String,
+    done:{type:Boolean,default:false},
+    priority:{type:Boolean,default:false}
 });
 
 const todo = mongoose.model('todolist',todolist);

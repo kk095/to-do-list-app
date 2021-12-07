@@ -33,12 +33,13 @@
     <div class="container animate__animated animate__zoomIn">
         <div class="heading">
             <h1> <i class="fas fa-clipboard-list"></i> To Do App</h1>
-            <h4>0 Tasks</h4>
+            <h4><%=data.length%> Tasks</h4>
         </div>
 
         <!--################################
             EMPTY TASKS DIV - START
         #################################-->
+        <% if(data.length==0){%>
         <div class="no-tasks">
 
             <div class="emptylist">
@@ -47,7 +48,7 @@
                 <h1>Congratulation! There is no task to do.</h1>
             </div>
         </div>
-
+        <%}%>
         <!----------------------------------
                EMPTY TASKS DIV -END 
         ------------------------------------>
@@ -55,75 +56,128 @@
         <!--################################
                 TASKS LIST DIV - START
         #################################-->
+        <% if (data.length>0){%>
         <div class="list-header">
+            <a href="/delete" class="delete-btn"><button>Delete</button></a>
             <div class="filter">
                 <button><i class="fas fa-filter"></i></button>
                 <div class="dropdown">
-                    <select name="tag" id="select-tag">
-                        <option value="none" selected disabled>Specific tag 
-                        <a href="" data-val="all"> <option value="all">All</option> </a> 
-                        <a href="" data-val="home"> <option value="home">home</option> </a> 
-                         <a href=""  data-val="profession"> <option value="profession">Profession</option></a> 
-                         <a href=""  data-val="school"><option value="school">School</option></a>
-                         <a href=""  data-val="other"> <option value="other">Other</option> </a> 
-                    </select>
-                     <a href=""  data-val="all"><option value="all">All </option></a>
-                     <a href=""  data-val="done"> <option value="done">Done</option></a> 
-                     <a href=""  data-val="undone"><option value="undone">Undone</option></a>
-                    <a href=""  data-val="latest">  <option value="latest">Latest</option> </a>
-                     <a href=""  data-val="oldest"> <option value="oldest">Oldest</option> </a> 
+                   
+                        <a href="/?filter=all"  data-val="all"><option value="all">All </option></a>
+                        <a href="/?filter=done"  data-val="done"> <option value="done">Done</option></a> 
+                        <a href="/?filter=undone"  data-val="undone"><option value="undone">Undone</option></a>
+                        <a href="/?filter=latest"  data-val="latest">  <option value="latest">Latest</option> </a>
+                        <a href="/?filter=oldest"  data-val="oldest"> <option value="oldest">Oldest</option> </a> 
+                        <a href="/?filter=home" data-val="home"> <option value="home">home</option> </a> 
+                         <a href="/?filter=profession"  data-val="profession"> <option value="profession">professional</option></a> 
+                         <a href="/?filter=personal"  data-val="school"><option value="school">Personal</option></a>
+                         <a href="/?filter=other"  data-val="other"> <option value="other">Other</option> </a> 
                 </div>
             </div>
         </div>
+        
         <div class="task-list">
             <div class="top-todos">
                 <h3>Top task(s) :</h3>
                 <ul id="sortable" class="sortable">
 
-                    <!-- <li> <div class="card">
-                        <div class="my-info">
-                            <div class="checkbox">
-                                <input type="checkbox" name="my-task-1" id="${ele.id}">
+                    <% for(i of data){ %>
+                        <% if(i.priority){ %>
+                        <li> <div class="card">
+                            <div class="my-info">
+                                <div class="checkbox">
+                                    <% if(i.done){ %>
+                                        <form action="/checkbox/?id=<%=i._id%>&check=true" method="post">
+                                            <input type="checkbox"  name="<%=i._id%>"  id="<%=i._id%>" value="checked" onchange="this.form.submit()" checked > 
+                                        </form>
+                                        <%}
+                                         else{%>
+                                            <form action="/checkbox" method="post">
+                                                <input type="checkbox" name="<%=i._id%>"  id="<%=i._id%>" onchange="this.form.submit()"> 
+                                            </form>
+                                            <%}%>
+                                </div>
+                                <div class="task-info">
+                                    <% if(i.done){ %>
+                                        <label class="checkbox-checked" for="<%=i._id %>"><%=i.task %></label>
+                                        <%}
+                                        else{%>
+                                           <label  for="<%=i._id %>"><%=i.task %></label>
+                                           <%}%>
+                                     <br>
+                                    <span class="task-date"><i class="fas fa-calendar-alt"></i><% if(i.date!=null){%>
+                                         <%=i.date.toDateString()%>
+                                        <%}
+                                    else{%>
+                                        No Date
+                                        <%}%>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="task-info">
-                                <label for="${ele.id}">${ele.task}</label><br>
-                                <span class="task-date"><i class="fas fa-calendar-alt"></i> ${ele.date}</span>
+                            <a href="/priority/?id=<%=i._id%>&priority=<%=i.priority%>" class="star"><i class="fas fa-star"></i></a>
+                            <div class="tasks-category">
+                                <div class="tags <%= i.tag %>">
+                                    <%=i.tag%>
+                                </div>
                             </div>
-                        </div>
-                        <div class="tasks-category">
-                            <div class="tags ${ele.tag}">
-                                ${ele.tag}
-                            </div>
-                        </div>
-                    </div> </li> -->
-                    
+                        </div> </li>
+                        <% }%>
+                        <%}%>
                 </ul>
             </div>
+            
             <div class="todos">
                 <h3> Your Tasks :</h3>
                 <div class="scrollable-todos">
                     <ul class="sortable">
-                        <!-- <li> <div class="card">
-                        <div class="my-info">
-                            <div class="checkbox">
-                                <input type="checkbox" name="my-task-1" id="${ele.id}">
-                            </div>
-                            <div class="task-info">
-                                <label for="${ele.id}">${ele.task}</label><br>
-                                <span class="task-date"><i class="fas fa-calendar-alt"></i> ${ele.date}</span>
-                            </div>
-                        </div>
-                        <div class="tasks-category">
-                            <div class="tags ${ele.tag}">
-                                ${ele.tag}
-                            </div>
-                        </div>
-                    </div> </li> -->
+                        <% for(i of data){ %>
+                            <% if(!i.priority){ %>
+                            <li> <div class="card">
+                                <div class="my-info">
+                                    <div class="checkbox">
+                                        <% if(i.done){ %>
+                                        <form  action="/checkbox/?id=<%=i._id%>&check=true" method="post">
+                                            <input type="checkbox" action="/checkbox" name="<%=i._id%>"  id="<%=i._id%>" value="checked" onchange="this.form.submit()" checked > 
+                                        </form>
+                                        <%}
+                                         else{%>
+                                            <form action="/checkbox" method="post">
+                                                <input type="checkbox" action="/checkbox" name="<%=i._id%>"  id="<%=i._id%>" onchange="this.form.submit()"> 
+                                            </form>
+                                            <%}%>
+                                    </div>
+                                    <div class="task-info">
+                                        <% if(i.done){ %>
+                                         <label class="checkbox-checked" for="<%=i._id %>"><%=i.task %></label>
+                                         <%}
+                                         else{%>
+                                            <label  for="<%=i._id %>"><%=i.task %></label>
+                                            <%}%>
+                                         <br>
+                                        <span class="task-date"><i class="fas fa-calendar-alt"></i><% if(i.date!=null){%>
+                                             <%=i.date.toDateString()%>
+                                            <%}
+                                        else{%>
+                                            No Date
+                                            <%}%>
+                                        </span>
+                                    </div>
+                                <!-- </form> -->
+                                </div>
+                                <a href="/priority/?id=<%=i._id%>&priority=<%=i.priority%>" class="star"><i class="far fa-star"></i></a>
+                                <div class="tasks-category">
+                                    <div class="tags <%= i.tag %>">
+                                        <%=i.tag%>
+                                    </div>
+                                </div>
+                            </div> </li>
+                            <% }%>
+                            <%}%>
                     </ul>
                 </div>
             </div>
         </div>
-
+        <% }%>
         <!----------------------------------
                 TASKS LIST DIV -END 
         ------------------------------------>
@@ -138,12 +192,12 @@
                 </div>
                 <div class="category-div">
                     <h3>Categories:</h3>
-                    <select name="categories" id="categories">
-                        <option value="none" selected>Select Categories</option>
+                    <select name="tag" id="categories">
+                        <option value="none" disabled selected>Select Categories</option>
                         <option value="home">Home</option>
-                        <option value="Professional">professional</option>
-                        <option value="Personal">Personal</option>
-                        <option value="Other">Other</option>
+                        <option value="professional">professional</option>
+                        <option value="personal">Personal</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="date-div">
